@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details - Payload Alchemist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-archivo {
+            font-family: 'Archivo Black', sans-serif;
+        }
+
+        /* Gradient animation for the heading */
+        .animated-gradient {
+            background: linear-gradient(90deg, #00f, #0ff, #f0f, #ff0);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: animate-gradient 5s linear infinite;
+        }
+
+        @keyframes animate-gradient {
+            0% { background-position-x: 0%; }
+            100% { background-position-x: 100%; }
+        }
+
+        /* Custom input styling */
+        .form-input {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #0ff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200 overflow-hidden">
+
+    <!-- Background Spline Wave -->
+    <iframe
+        class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
+        src="https://my.spline.design/claritystream-44SGA95cHaoIsXYF7fxF28Fj/"
+        frameborder="0">
+    </iframe>
+
+    <!-- Main Container -->
+    <div class="relative z-10 flex w-full h-screen p-4 sm:p-6 md:p-8 gap-4 sm:gap-6 md:gap-8">
+
+        <!-- Left Sidebar -->
+        <aside class="w-1/4 lg:w-1/5 h-full bg-white/5 backdrop-blur-md rounded-2xl p-6 flex flex-col gap-6 shadow-2xl shadow-black/20">
+            <h2 class="font-bold text-xl text-white border-b border-white/10 pb-4">Tools</h2>
+            <ul class="space-y-3 text-gray-300">
+                <li><a href="index.html" class="hover:text-cyan-400 transition-colors">Scanner</a></li>
+                <li><a href="#" class="hover:text-cyan-400 transition-colors">Payload Generator</a></li>
+                <li><a href="#" class="hover:text-cyan-400 transition-colors">History</a></li>
+            </ul>
+            <div class="mt-auto">
+                 <h2 class="font-bold text-xl text-white border-b border-white/10 pb-4 mb-4">Settings</h2>
+                 <ul class="space-y-3 text-gray-300">
+                    <li><a href="#" class="text-cyan-400 font-bold">User Details</a></li>
+                    <li><a href="#" class="hover:text-cyan-400 transition-colors">Preferences</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content: User Details -->
+        <main class="w-3/4 lg:w-4/5 h-full bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/20 overflow-y-auto custom-scrollbar">
+            <h1 class="font-archivo text-4xl sm:text-5xl animated-gradient mb-8">User Details</h1>
+            
+            <form id="user-details-form">
+                <!-- Profile Section -->
+                <div class="flex items-center gap-6 mb-10">
+                    <img id="profile-preview" src="https://placehold.co/100x100/000000/cyan?text=User" alt="User Profile" class="w-24 h-24 rounded-full border-2 border-cyan-400 object-cover">
+                    <div>
+                        <label for="profile-upload" class="cursor-pointer px-4 py-2 bg-cyan-500/20 border border-cyan-400 text-cyan-300 rounded-lg font-bold hover:bg-cyan-500/30 transition-all">
+                            Upload New Picture
+                        </label>
+                        <input type="file" id="profile-upload" class="hidden" accept="image/*">
+                        <p class="text-xs text-gray-500 mt-2">PNG, JPG, GIF up to 5MB.</p>
+                    </div>
+                </div>
+
+                <!-- Form Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-400 mb-2">Username</label>
+                        <input type="text" id="username" value="CyberKnight" class="w-full p-3 rounded-lg form-input">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email Address</label>
+                        <input type="email" id="email" value="user@payloadalchemist.dev" class="w-full p-3 rounded-lg form-input">
+                    </div>
+                    <div>
+                        <label for="current-password" class="block text-sm font-medium text-gray-400 mb-2">Current Password</label>
+                        <input type="password" id="current-password" placeholder="••••••••" class="w-full p-3 rounded-lg form-input">
+                    </div>
+                    <div>
+                        <label for="new-password" class="block text-sm font-medium text-gray-400 mb-2">New Password</label>
+                        <input type="password" id="new-password" placeholder="••••••••" class="w-full p-3 rounded-lg form-input">
+                    </div>
+                </div>
+
+                <!-- API Key Section -->
+                <div class="mt-10 border-t border-white/10 pt-8">
+                     <h2 class="text-2xl font-bold text-white mb-4">API Key</h2>
+                     <p class="text-gray-400 mb-4">Use this key to integrate with your custom scripts and tools.</p>
+                     <div class="flex items-center gap-4 p-3 rounded-lg bg-black/20 border border-white/10">
+                        <input type="text" id="api-key" readonly value="pa-key-xxxxxxxxxxxxxxxxxxxx-xxxx" class="w-full bg-transparent font-mono text-gray-500 outline-none">
+                        <button type="button" id="copy-key-btn" class="px-4 py-1.5 text-sm bg-gray-600/50 hover:bg-gray-500/50 rounded-md transition-colors">Copy</button>
+                     </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-10 border-t border-white/10 pt-8 flex justify-end gap-4">
+                    <button type="button" class="px-6 py-2 rounded-lg text-gray-300 hover:bg-white/10 transition-colors">Cancel</button>
+                    <button type="submit" class="px-6 py-2 bg-cyan-500/80 hover:bg-cyan-500 text-black font-bold rounded-lg transition-colors">Save Changes</button>
+                </div>
+            </form>
+        </main>
+    </div>
+    
+    <script>
+        // --- Script for Profile Picture Preview ---
+        const profileUpload = document.getElementById('profile-upload');
+        const profilePreview = document.getElementById('profile-preview');
+
+        profileUpload.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // --- Script for API Key Copy ---
+        const copyBtn = document.getElementById('copy-key-btn');
+        const apiKeyInput = document.getElementById('api-key');
+
+        copyBtn.addEventListener('click', function() {
+            // A workaround for clipboard API in secure contexts/iframes
+            const textArea = document.createElement('textarea');
+            textArea.value = apiKeyInput.value;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                copyBtn.textContent = 'Failed!';
+                 setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+            }
+            document.body.removeChild(textArea);
+        });
+
+    </script>
+</body>
+</html>

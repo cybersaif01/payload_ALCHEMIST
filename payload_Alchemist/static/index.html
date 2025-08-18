@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payload Alchemist Web</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-archivo {
+            font-family: 'Archivo Black', sans-serif;
+        }
+
+        /* Gradient animation for the heading */
+        .animated-gradient {
+            background: linear-gradient(90deg, #00f, #0ff, #f0f, #ff0);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: animate-gradient 5s linear infinite;
+        }
+
+        @keyframes animate-gradient {
+            0% { background-position-x: 0%; }
+            100% { background-position-x: 100%; }
+        }
+
+        /* Custom scrollbar for output */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Added for loading state */
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #0ff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200 overflow-hidden">
+
+    <!-- Background Spline Wave -->
+    <iframe
+        class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
+        src="https://my.spline.design/claritystream-44SGA95cHaoIsXYF7fxF28Fj/"
+        frameborder="0">
+    </iframe>
+
+    <!-- Main Container -->
+    <div class="relative z-10 flex w-full h-screen p-4 sm:p-6 md:p-8 gap-4 sm:gap-6 md:gap-8">
+
+        <!-- Left Sidebar -->
+        <aside class="w-1/4 lg:w-1/5 h-full bg-white/5 backdrop-blur-md rounded-2xl p-6 flex flex-col gap-6 shadow-2xl shadow-black/20">
+            <h2 class="font-bold text-xl text-white border-b border-white/10 pb-4">Tools</h2>
+            <ul class="space-y-3 text-gray-300">
+                <li><a href="index.html" class="hover:text-cyan-400 transition-colors">Scanner</a></li>
+                <li><a href="payload-generator.html" class="hover:text-cyan-400 transition-colors">Payload Generator</a></li>
+                <li><a href="#" class="hover:text-cyan-400 transition-colors">History</a></li>
+            </ul>
+            <div class="mt-auto">
+                 <h2 class="font-bold text-xl text-white border-b border-white/10 pb-4 mb-4">Settings</h2>
+                 <ul class="space-y-3 text-gray-300">
+                    <li><a href="static/user-details.html" class="hover:text-cyan-400 transition-colors">User Details</a></li>
+                    <li><a href="static/preferences.html" class="hover:text-cyan-400 transition-colors">Preferences</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="w-3/4 lg:w-4/5 h-full flex flex-col gap-4 sm:gap-6 md:gap-8">
+            <!-- Top Section: Title and Input -->
+            <section class="h-2/5 bg-white/5 backdrop-blur-md rounded-2xl p-6 flex flex-col items-center justify-center shadow-2xl shadow-black/20">
+                <h1 class="font-archivo text-4xl sm:text-5xl md:text-6xl lg:text-7xl animated-gradient mb-6">PAYLOAD ALCHEMIST</h1>
+                <form id="scan-form" class="w-full max-w-2xl">
+                    <input type="text" id="domain" placeholder="Enter domain (e.g., example.com)" required class="w-full px-5 py-3 bg-black/20 border border-white/10 rounded-lg text-center text-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all">
+                    <div class="mt-4 text-center">
+                        <span class="text-gray-400 mr-4">Scan Type:</span>
+                        <label class="mr-3"><input type="radio" name="scan-type" value="recon" class="mr-1 accent-cyan-400"> Recon</label>
+                        <label class="mr-3"><input type="radio" name="scan-type" value="fuzz" class="mr-1 accent-cyan-400"> Fuzz</label>
+                        <label><input type="radio" name="scan-type" value="full" class="mr-1 accent-cyan-400" checked> Full</label>
+                    </div>
+                     <!-- Add a submit button -->
+                    <button type="submit" id="scanBtn" class="w-full mt-4 px-5 py-3 bg-cyan-500/20 border border-cyan-400 text-cyan-300 rounded-lg font-bold text-lg hover:bg-cyan-500/30 transition-all flex items-center justify-center gap-3">
+                        <span id="button-text">Start Scan</span>
+                        <div id="loader" class="loader hidden"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Bottom Section: Outputs -->
+            <section class="h-3/5 flex gap-4 sm:gap-6 md:gap-8">
+                <!-- Output Box -->
+                <div class="w-2/3 bg-white/5 backdrop-blur-md rounded-2xl p-6 flex flex-col shadow-2xl shadow-black/20">
+                    <h3 class="font-bold text-lg text-white border-b border-white/10 pb-3 mb-3">Scan Output</h3>
+                    <div id="output" class="flex-grow overflow-y-auto custom-scrollbar pr-2 font-mono text-sm text-gray-400">
+                        <p>> Initializing scan for target...</p>
+                        <p>> Awaiting domain input.</p>
+                    </div>
+                </div>
+
+                <!-- Summary Box -->
+                <div class="w-1/3 bg-white/5 backdrop-blur-md rounded-2xl p-6 flex flex-col items-center justify-center shadow-2xl shadow-black/20">
+                    <h3 class="font-bold text-lg text-white mb-4">Vulnerability Score</h3>
+                    <div class="relative w-40 h-40">
+                        <svg class="w-full h-full" viewBox="0 0 36 36">
+                            <path class="text-white/10"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                  fill="none" stroke="currentColor" stroke-width="3" />
+                            <path id="progress-circle" class="text-cyan-400 transition-all duration-500"
+                                  stroke-dasharray="0, 100"
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                  fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" transform="rotate(90 18 18)" />
+                        </svg>
+                        <div id="percentage-text" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl font-bold text-white">0%</div>
+                    </div>
+                    <p id="summary-text" class="mt-4 text-gray-400 text-center">Scan not initiated.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const scanForm = document.getElementById('scan-form');
+        const domainInput = document.getElementById('domain');
+        const outputDiv = document.getElementById('output');
+        const progressCircle = document.getElementById('progress-circle');
+        const percentageText = document.getElementById('percentage-text');
+        const summaryText = document.getElementById('summary-text');
+        const scanBtn = document.getElementById('scanBtn');
+        const buttonText = document.getElementById('button-text');
+        const loader = document.getElementById('loader');
+
+        scanForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const domain = domainInput.value;
+            const scanType = document.querySelector('input[name="scan-type"]:checked').value;
+            if (!domain) return;
+
+            // --- 1. Set UI to loading state ---
+            setLoadingState(true);
+            outputDiv.innerHTML = `<p>> Initializing ${scanType} scan for ${domain}...</p>`;
+            updateProgress(0, 'Scan starting...');
+
+            try {
+                // --- 2. Make the API call to the Flask backend ---
+                const response = await fetch('/api/scan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        domain: domain,
+                        mode: scanType,
+                        save_report: false 
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                // --- 3. Display the results ---
+                // Use <pre> tag to preserve formatting and newlines from the python script's output
+                outputDiv.innerHTML = `<pre>${result.output || ''}</pre>`;
+                if (result.error) {
+                    outputDiv.innerHTML += `<pre class="text-red-400">> ERROR: ${result.error}</pre>`;
+                }
+                
+                // --- 4. Update summary and progress ---
+                // A simple way to determine a "score" could be to count keywords.
+                // This is a placeholder; a more sophisticated method would be better.
+                const vulnerabilityKeywords = ['vulnerability', 'vulnerabilities', 'missing', 'redirect', 'listing', 'exploiting'];
+                const outputText = result.output.toLowerCase();
+                let score = 0;
+                vulnerabilityKeywords.forEach(keyword => {
+                    if (outputText.includes(keyword)) {
+                        score += 15;
+                    }
+                });
+                score = Math.min(score, 100); // Cap score at 100
+
+                updateProgress(score, 'Scan complete.');
+
+
+            } catch (error) {
+                // --- 5. Handle errors ---
+                console.error('Error during scan:', error);
+                outputDiv.innerHTML = `<p class="text-red-400">> Failed to connect to the scanner API. Is the server running?</p><p class="text-gray-500">${error}</p>`;
+                updateProgress(0, 'Connection Error!');
+            } finally {
+                // --- 6. Reset UI from loading state ---
+                setLoadingState(false);
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+            }
+        });
+
+        function setLoadingState(isLoading) {
+            if (isLoading) {
+                scanBtn.disabled = true;
+                domainInput.disabled = true;
+                buttonText.textContent = 'Scanning...';
+                loader.classList.remove('hidden');
+            } else {
+                scanBtn.disabled = false;
+                domainInput.disabled = false;
+                buttonText.textContent = 'Start Scan';
+                loader.classList.add('hidden');
+            }
+        }
+
+        function updateProgress(percentage, summary) {
+            percentage = Math.max(0, Math.min(100, percentage)); // Clamp between 0 and 100
+            progressCircle.style.strokeDasharray = `${percentage}, 100`;
+            percentageText.textContent = `${percentage}%`;
+            summaryText.textContent = summary;
+            
+            // Change color based on percentage
+            if (percentage < 40) {
+                progressCircle.className.baseVal = 'text-cyan-400 transition-all duration-500';
+            } else if (percentage < 75) {
+                progressCircle.className.baseVal = 'text-yellow-400 transition-all duration-500';
+            } else {
+                progressCircle.className.baseVal = 'text-red-500 transition-all duration-500';
+            }
+        }
+    </script>
+</body>
+</html>

