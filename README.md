@@ -91,7 +91,7 @@ Installation & Setup
 
     Launch the Flask server:
 
-    python main.py
+    python web-scanner.py
 
     The server will initialize and become accessible, typically at http://127.0.0.1:5000.
 
